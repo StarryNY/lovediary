@@ -5,78 +5,322 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我们的恋爱日记</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Microsoft YaHei', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-image: url('IMG_20211222_124810.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            position: relative;
-            z-index: 1;
+            box-sizing: border-box;
         }
-        body::after {
-            content: '';
+
+        body {
+            font-family: 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            line-height: 1.5;
+        }
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(253, 246, 246, 0.8);
-            z-index: -1;
+            right: 0;
+            height: 60px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
         }
-        .header {
-            background-color: #ff9eaf;
-            color: white;
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff4b6e;
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu a {
+            color: #65676b;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar-menu a:hover {
+            background-color: #f2f2f2;
+        }
+        .main-container {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 80px auto 0;
             padding: 20px;
-            text-align: center;
         }
+
+        .sidebar {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .profile-card {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+
         .weather-greeting {
             background-color: white;
-            margin: 20px;
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
+
         .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            background: transparent;
         }
+        .post-create {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .post-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: none;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .post-actions button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
         .photo-wall {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
         }
+
         .photo-item {
             background-color: white;
-            padding: 10px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .photo-item:hover {
-            transform: translateY(-5px) scale(1.03);
+            transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+
         .photo-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .photo-info {
+            padding: 12px;
+        }
+
+        .photo-actions {
+            display: flex;
+            gap: 15px;
+            padding: 8px 12px;
+            border-top: 1px solid #eee;
+        }
+
+        .photo-action {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #65676b;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .photo-action:hover {
+            color: #ff4b6e;
+        }
+        .right-sidebar {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .memories-section {
+            margin-bottom: 20px;
+        }
+
+        .memories-section h3 {
+            margin-bottom: 15px;
+            color: #1c1e21;
+            font-size: 1.1em;
+        }
+
+        .memory-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .memory-item:hover {
+            background-color: #f7f8f9;
+        }
+
+        .memory-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .memory-info {
+            flex: 1;
+        }
+
+        .memory-info h4 {
+            font-size: 0.9em;
+            margin-bottom: 4px;
+        }
+
+        .memory-info p {
+            font-size: 0.8em;
+            color: #65676b;
+        }
+
+        .post-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-meta {
+            flex: 1;
+        }
+
+        .post-meta h3 {
+            font-size: 1em;
+            margin-bottom: 2px;
+        }
+
+        .post-meta time {
+            font-size: 0.8em;
+            color: #65676b;
+        }
+
+        .post-content {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .post-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .post-images img {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-radius: 4px;
-        }
-        .diary-section {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            cursor: pointer;
             transition: transform 0.3s ease;
         }
-        .diary-section:hover {
-            transform: translateX(10px);
+
+        .post-images img:hover {
+            transform: scale(1.05);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #65676b;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .post-action:hover {
+            color: #ff4b6e;
         }
         .save-container {
     margin-top: 15px;
@@ -138,39 +382,412 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>我们的恋爱日记</h1>
-    </div>
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">💑 我们的恋爱日记</a>
+        <div class="navbar-menu">
+            <a href="#"><i class="fas fa-home"></i> 首页</a>
+            <a href="#"><i class="fas fa-images"></i> 相册</a>
+            <a href="#"><i class="fas fa-heart"></i> 回忆</a>
+        </div>
+    </nav>
     
-    <div class="content">
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="profile-card">
+                <img src="2.jpg" alt="情侣头像">
+                <h3>我们在一起</h3>
+                <p>已经 365 天</p>
+            </div>
+            <div class="weather-greeting">
+                <h4><i class="fas fa-cloud-sun"></i> 今日天气</h4>
+                <p id="weather">正在获取天气信息...</p>
+                <p id="greeting"></p>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div class="diary-posts">
+                <!-- 动态内容将在这里显示 -->
+            </div>
         <div class="weather-greeting">
             <h2>今日天气 & 问候</h2>
             <p id="weather">正在获取天气信息...</p>
             <p id="greeting"></p>
         </div>
 
-        <button class="add-photo-btn" onclick="document.getElementById('photo-input').click()">
-            添加照片
-        </button>
-        <input type="file" id="photo-input" style="display: none" accept="image/*" multiple>
-
-        <div class="photo-wall" id="photo-wall">
-            <!-- 照片将在这里动态添加 -->
-        </div>
-
-        <div class="diary-section">
-            <h2>今日心情</h2>
-            <textarea class="diary-editor" placeholder="写下今天的心情..."></textarea>
-            <div class="save-container">
-                <button class="save-btn" onclick="saveDiary()">💾 保存日记</button>
-                <span class="save-status" id="saveStatus"></span>
+            <div class="post-create">
+                <textarea class="post-input" placeholder="分享此刻的心情..."></textarea>
+                <div class="post-actions">
+                    <button onclick="document.getElementById('photo-input').click()" style="background: #f0f2f5; color: #65676b;">
+                        <i class="fas fa-images"></i> 添加照片
+                    </button>
+                    <button onclick="saveDiary()" style="background: #ff4b6e; color: white;">
+                        <i class="fas fa-paper-plane"></i> 发布
+                    </button>
+                </div>
+                <input type="file" id="photo-input" style="display: none" accept="image/*" multiple>
             </div>
-        </div>
+
+            <div class="photo-wall" id="photo-wall">
+                <!-- 预设的照片 -->
+                <div class="photo-item">
+                    <img src="IMG_20221118_163239.jpg" alt="恋爱照片">
+                    <div class="photo-info">
+                        <p>2022-11-18</p>
+                    </div>
+                    <div class="photo-actions">
+                        <span class="photo-action"><i class="fas fa-heart"></i> 喜欢</span>
+                        <span class="photo-action"><i class="fas fa-comment"></i> 评论</span>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <img src="IMG_20221120_175534.jpg" alt="恋爱照片">
+                    <div class="photo-info">
+                        <p>2022-11-20</p>
+                    </div>
+                    <div class="photo-actions">
+                        <span class="photo-action"><i class="fas fa-heart"></i> 喜欢</span>
+                        <span class="photo-action"><i class="fas fa-comment"></i> 评论</span>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <img src="IMG_20221206_130927.jpg" alt="恋爱照片">
+                    <div class="photo-info">
+                        <p>2022-12-06</p>
+                    </div>
+                    <div class="photo-actions">
+                        <span class="photo-action"><i class="fas fa-heart"></i> 喜欢</span>
+                        <span class="photo-action"><i class="fas fa-comment"></i> 评论</span>
+                    </div>
+                </div>
+                <div class="photo-item">
+                    <img src="IMG_20221207_162332.jpg" alt="恋爱照片">
+                    <div class="photo-info">
+                        <p>2022-12-07</p>
+                    </div>
+                    <div class="photo-actions">
+                        <span class="photo-action"><i class="fas fa-heart"></i> 喜欢</span>
+                        <span class="photo-action"><i class="fas fa-comment"></i> 评论</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="memories-section">
+                <h3><i class="fas fa-history"></i> 往日回忆</h3>
+                <div class="memory-item">
+                    <img src="IMG_20221118_163239.jpg" alt="回忆照片">
+                    <div class="memory-info">
+                        <h4>第一次约会</h4>
+                        <p>2022-11-18</p>
+                    </div>
+                </div>
+                <div class="memory-item">
+                    <img src="IMG_20221120_175534.jpg" alt="回忆照片">
+                    <div class="memory-info">
+                        <h4>甜蜜晚餐</h4>
+                        <p>2022-11-20</p>
+                    </div>
+                </div>
+                <div class="memory-item">
+                    <img src="IMG_20221206_130927.jpg" alt="回忆照片">
+                    <div class="memory-info">
+                        <h4>周末漫步</h4>
+                        <p>2022-12-06</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
     </div>
 
     <script>
-        // 处理照片上传
-        document.getElementById('photo-input').addEventListener('change', function(e) {
+    // 天气代码转换
+    function getWeatherText(code) {
+        const weatherMap = {
+            'Sunny': '<i class="fas fa-sun"></i> 晴天',
+            'Clear': '<i class="fas fa-moon"></i> 晴夜',
+            'Cloudy': '<i class="fas fa-cloud"></i> 多云',
+            'Overcast': '<i class="fas fa-cloud-meatball"></i> 阴天',
+            'Mist': '<i class="fas fa-smog"></i> 雾天',
+            'Rain': '<i class="fas fa-cloud-rain"></i> 降雨',
+            'Snow': '<i class="fas fa-snowflake"></i> 降雪'
+        };
+        return weatherMap[code] || '未知天气 ❓';
+    }
+
+    // 时间问候语
+    function getTimeGreeting() {
+        const hour = new Date().getHours();
+        if (hour < 6) return '凌晨好 🌙 要注意休息哦～';
+        if (hour < 9) return '早上好 🌅 今天也要元气满满！';
+        if (hour < 12) return '上午好 🌞 想我了吗？';
+        if (hour < 14) return '中午好 🍜 吃饱饱才有力气想我～';
+        if (hour < 18) return '下午好 ☕ 工作学习要加油哦！';
+        if (hour < 22) return '晚上好 🌆 一起看星星吗？';
+        return '夜深啦 🌙 早点休息别熬夜～';
+    }
+
+    // 更新天气信息
+    function updateWeather() {
+    // 添加加载状态提示
+    const weatherGreeting = document.querySelector('.weather-greeting');
+    weatherGreeting.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> 正在获取天气信息...';
+        const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=e4168a903aae497f94981118251803&q=${latitude},${longitude}&aqi=no`);
+            if(!response.ok) throw new Error(`API响应错误: ${response.status}`);
+            const data = await response.json();
+            break;
+            .then(response => response.json())
+            .then(data => {
+                const weatherText = getWeatherText(data.current_weather.weathercode);
+                const weatherInfo = `实时天气：${data.current.temp_c}°C ${weatherText}
+湿度：${data.current.humidity}% | 风速：${data.current.wind_kph}km/h`;
+                document.getElementById('weather').textContent = weatherInfo;
+            })
+            .catch(error => {
+                console.error('获取天气信息失败:', error);
+                document.getElementById('weather').textContent = '天气信息获取失败';
+            });
+    }
+
+    // 初始化页面
+    document.addEventListener('DOMContentLoaded', function() {
+        // 更新在一起的天数
+        const startDate = new Date('2022-11-18');
+        const today = new Date();
+        const days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+        document.querySelector('.profile-card p').textContent = `已经 ${days} 天`;
+
+        // 更新天气和问候语
+        updateWeather();
+        updateGreeting();
+        setInterval(updateWeather, 1800000); // 每30分钟更新一次天气
+        setInterval(updateGreeting, 3600000); // 每小时更新一次问候语
+
+        // 初始化照片上传功能
+        initPhotoUpload();
+
+        // 初始化发布功能
+        initPostFunction();
+
+        // 初始化点赞功能
+        initLikeFunction();
+
+        // 初始化日记编辑器
+        initDiaryEditor();
+    });
+
+    // 初始化照片上传功能
+    function initPhotoUpload() {
+        const photoInput = document.getElementById('photo-input');
+        if (!photoInput) return;
+
+        photoInput.addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files.length === 0) return;
+
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'post-images';
+            
+            Array.from(files).forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = '预览图片';
+                    previewContainer.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            });
+
+            const existingPreview = document.querySelector('.post-create .post-images');
+            if (existingPreview) {
+                existingPreview.remove();
+            }
+            document.querySelector('.post-create').insertBefore(previewContainer, document.querySelector('.post-actions'));
+        });
+    }
+
+    // 初始化发布功能
+    function initPostFunction() {
+        const postButton = document.querySelector('.post-actions button:last-child');
+        if (!postButton) return;
+
+        postButton.addEventListener('click', function() {
+            const content = document.querySelector('.post-input').value;
+            const images = Array.from(document.querySelectorAll('.post-create .post-images img')).map(img => img.src);
+            
+            if (content.trim() || images.length > 0) {
+                createPost(content, images);
+                document.querySelector('.post-input').value = '';
+                const previewContainer = document.querySelector('.post-create .post-images');
+                if (previewContainer) {
+                    previewContainer.remove();
+                }
+            }
+        });
+    }
+
+    // 初始化点赞功能
+    function initLikeFunction() {
+        document.addEventListener('click', function(e) {
+            const action = e.target.closest('.photo-action');
+            if (action && action.querySelector('.fas.fa-heart')) {
+                action.innerHTML = '<i class="fas fa-heart" style="color: #ff4b6e;"></i> 已喜欢';
+            }
+        });
+    }
+    
+
+    // 更新问候语
+    function updateGreeting() {
+        const greeting = getTimeGreeting();
+        document.getElementById('greeting').textContent = greeting;
+    }
+
+    // 初始化日记编辑器
+    function initDiaryEditor() {
+        const editor = document.querySelector('.diary-editor');
+        if (!editor) return;
+
+        // 加载已保存的内容
+        const savedContent = localStorage.getItem('diaryContent');
+        if (savedContent) {
+            editor.value = savedContent;
+        }
+
+        // 自动保存功能
+        let saveTimeout;
+        editor.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                localStorage.setItem('diaryContent', editor.value);
+                showSaveStatus('已自动保存');
+            }, 1000);
+        });
+    }
+
+    // 显示保存状态
+    function showSaveStatus(message) {
+        const statusElement = document.querySelector('.save-status');
+        if (!statusElement) return;
+
+        statusElement.textContent = message;
+        statusElement.style.opacity = '1';
+        
+        setTimeout(() => {
+            statusElement.style.animation = 'fadeOut 1s forwards';
+            setTimeout(() => {
+                statusElement.style.opacity = '0';
+                statusElement.style.animation = '';
+            }, 1000);
+        }, 2000);
+    }
+
+    // 创建新动态
+    function createPost(content, images) {
+        const post = document.createElement('div');
+        post.className = 'post-item';
+        
+        post.innerHTML = `
+            <div class="post-header">
+                <img src="2.jpg" alt="头像">
+                <div class="post-meta">
+                    <h3>我们的故事</h3>
+                    <time>${new Date().toLocaleString()}</time>
+                </div>
+            </div>
+            <div class="post-content">${content.replace(/\n/g, '<br>')}</div>
+            ${images.length > 0 ? `
+                <div class="post-images">
+                    ${images.map(src => `<img src="${src}" alt="动态图片">`).join('')}
+                </div>
+            ` : ''}
+            <div class="post-actions">
+                <span class="post-action"><i class="fas fa-heart"></i> 喜欢</span>
+                <span class="post-action"><i class="fas fa-comment"></i> 评论</span>
+                <span class="post-action"><i class="fas fa-share"></i> 分享</span>
+            </div>
+        `;
+
+        document.querySelector('.diary-posts').insertBefore(post, document.querySelector('.diary-posts').firstChild);
+    }
+
+    // 获取地理位置
+navigator.geolocation.getCurrentPosition(async position => {
+    let retries = 3;
+    while(retries--) {
+        try {
+    // 成功获取位置的回调
+    handlePosition(position.coords);
+        } catch (error) {
+            if(!retries) {
+                console.error('天气获取失败:', error);
+                document.querySelector('.weather-greeting').innerHTML = 
+                    `⚠️ 天气获取失败: ${error.message || '请检查网络连接'}`;
+                // 使用默认北京坐标作为后备
+                latitude = 39.9042;
+                longitude = 116.4074;
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+    }
+    // 获取位置失败时使用黄岛默认坐标
+    console.log('位置获取失败，使用默认坐标:', error);
+    handlePosition({ latitude: 36.0667, longitude: 120.3826 });
+});
+
+function handlePosition({ latitude, longitude }) {
+    
+    // 获取天气数据
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`)
+        .then(response => response.json())
+        .then(data => {
+            const weatherText = getWeatherText(data.current_weather.weathercode);
+            const weatherInfo = `实时天气：${data.current.temp_c}°C ${weatherText}
+湿度：${data.current.humidity}% | 风速：${data.current.wind_kph}km/h`;
+            document.getElementById('weather').textContent = weatherInfo;
+            // 初始化问候语
+updateGreeting();
+
+// 每小时更新一次问候语
+setInterval(updateGreeting, 3600000);
+
+function updateGreeting() {
+    document.getElementById('greeting').textContent = getTimeGreeting();
+}
+        });
+});
+
+// 保存日记功能
+function saveDiary() {
+    const editor = document.querySelector('.diary-editor');
+    const diaryCard = document.createElement('div');
+    diaryCard.className = 'diary-card';
+    diaryCard.innerHTML = `
+        <time>${new Date().toLocaleString()}</time>
+        <div>${editor.value.replace(/\n/g, '<br>')}</div>
+/g, '<br>')}</div>
+    `;
+    document.querySelector('.diary-posts').prepend(diaryCard);
+    editor.value = '';
+    showSaveStatus('保存成功', '#4CAF50');
+}
+
+function showSaveStatus(text, color) {
+    const status = document.getElementById('saveStatus');
+    status.textContent = text;
+    status.style.color = color;
+    status.style.opacity = '1';
+    setTimeout(() => status.style.opacity = '0', 2000);
+}
+
+// 处理照片上传
+document.getElementById('photo-input').addEventListener('change', function(e) {
             const files = e.target.files;
             const photoWall = document.getElementById('photo-wall');
             
@@ -186,24 +803,7 @@
             }
         });
 
-        // 获取实时天气
-        navigator.geolocation.getCurrentPosition(position => {
-            const apiKey = '4e5c7984d6e3a9a0b7f1d3c8e5b6a2f'; // 替换为您申请的API密钥
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            
-            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=zh_cn`)
-                .then(response => response.json())
-                .then(data => {
-                    const weatherDesc = data.weather[0].description;
-                    const temp = data.main.temp;
-                    document.getElementById('weather').textContent = 
-                        `当前天气：${weatherDesc}，温度${temp}℃，${temp > 20 ? '适合出门约会' : '记得添衣保暖'}`;
-                });
-        }, 
-        error => {
-            document.getElementById('weather').textContent = '无法获取位置信息，请允许位置访问';
-        });
+
 
         // 日记保存功能
         const diaryEditor = document.querySelector('.diary-editor');
@@ -244,16 +844,7 @@
             }, 2000);
         }
 
-        // 动态时间问候
-        const hours = new Date().getHours();
-        const greetings = {
-            morning: '🌞 早安宝贝！今天也要元气满满哦～',
-            afternoon: '☕️ 下午好亲爱的！喝杯咖啡提提神吧',
-            evening: '🌙 晚上好～今天过得开心吗？'
-        };
-        document.getElementById('greeting').textContent = 
-            hours < 12 ? greetings.morning : 
-            hours < 18 ? greetings.afternoon : greetings.evening;
+
     </script>
 </body>
 </html>
